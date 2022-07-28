@@ -205,4 +205,27 @@ hr {
     font-size: 0.8rem;
 }
 
+/* contact form */
+form, fieldset {
+    display: block;
+}
+
+.form-pair {
+    margin: 1em;
+}
+
+input#mail:valid {
+    background-color: ivory;
+    border: none;
+    outline: 2px solid green;
+    border-radius: 5px;
+}
+
+input#mail:invalid {
+    background-color: ivory;
+    border: none;
+    outline: 2px solid red;
+    border-radius: 5px;
+}
+
 

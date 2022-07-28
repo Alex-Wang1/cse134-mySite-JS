@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomDialog</title>
+    <style>
+        output {
+            font-size: xx-large;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>This is a Custom Dialog</h1>
+    </header>
+    <main>
+        <dialog id="alDia">
+                <p>Alert pressed!</p> 
+                <button id="ok">Ok</button>
+            </dialog>
+            <button id="cusAl">Alert</button>
+
+            <dialog id="cfDia">
+                <p>Do you want to see a longer and more boring ad?</p> 
+                <button id="yes">Ok</button>
+                <button id="no">Cancel</button>
+            </dialog>
+            <button id="cusCf">Confirm</button>
+
+            <dialog id="prDia">
+                <p>Please enter your first name:</p> 
+                <input id="prInput" type="text">
+                <button id="enter">Ok</button>
+                <button id="cancel">Cancel</button>
+            </dialog>
+            <button id="cusPr">Prompt</button>
+
+            <hr>
+            <output id="out"></output>
+
+            <script type="module">
+            import {cusAlert} from './customdialog.js';
+            cusAlert();
+            import {cusConfirm} from './customdialog.js';
+            cusConfirm();
+            import {cusPrompt} from './customdialog.js';
+            cusPrompt();
+            </script>
+    </main>
+</body>
+</html>

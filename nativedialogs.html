@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Native Dialog</title>
+    <style>
+        output {
+            font-size: xx-large;
+        }
+
+    </style>
+    <script type="text/javascript" src="purify.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>This is Dialog page</h1>
+    </header>
+    <main>
+        <button id="al">Alert</button>
+        <button id="cf">Confirm</button>
+        <button id="pr">Prompt</button>
+        <button id="spr">Safer Prompt</button>
+
+        <hr>
+
+      
+        <!-- <template id="cusDia"> -->
+            <!-- <dialog id="alDia">
+                <p>Alert pressed!</p> 
+                <button id="ok">Ok</button>
+            </dialog>
+            <button id="cusAl">Alert</button>
+
+            <dialog id="cfDia">
+                <p>Do you want to see a longer and more boring ad?</p> 
+                <button id="yes">Ok</button>
+                <button id="no">Cancel</button>
+            </dialog>
+            <button id="cusCf">Confirm</button>
+
+            <dialog id="prDia">
+                <p>Please enter your first name:</p> 
+                <input id="prInput" type="text">
+                <button id="enter">Ok</button>
+                <button id="cancel">Cancel</button>
+            </dialog>
+            <button id="cusPr">Prompt</button>
+
+            <hr> -->
+            
+        <!-- </template> -->
+        <output id="out"></output>
+        
+       
+      
+        <!-- Native dialogs JS part-->
+        <script>
+            // alert button
+            function myAlert() {
+                window.alert ("This is an alert!");
+            }
+            let al = document.getElementById ("al");
+            al.addEventListener ("click", myAlert);
+
+            // confirm button
+            function myConfirm() {
+                let text = "Would you like to see a long and boring ads?"
+                let result = confirm(text);
+                if (result == true) {
+                    text = `The value returned by the confirm method is : true`;
+                }
+                else {
+                    text = `The value returned by the confirm method is : false`;
+                }
+                document.getElementById ("out").innerHTML = text;
+            }
+            let cf = document.getElementById ("cf");
+            cf.addEventListener ("click", myConfirm);
+
+            // prompt button
+            function myPrompt () {
+                let text = 'Please enter you First Name';
+                let name = prompt (text);
+                if (name != null) {
+                    if (name.length == 0) {
+                        text = `User didn't enter anything`;
+                    } 
+                    else {
+                        text = `Your First Name is ${name.charAt(0).toUpperCase () + name.slice (1)}`;
+                    }
+                }
+                else {
+                    text = `User didn't enter anything`;
+                }
+                document.getElementById ("out").innerHTML = text;
+                document.getElementById ("out").style.pointerEvents = "auto";
+            }
+            let pr = document.getElementById ("pr");
+            pr.addEventListener ("click", myPrompt);
+
+            // safer prompt button
+            let spr = document.getElementById ("spr");
+            spr.addEventListener ("click", () => {
+                let text = 'Please enter you First Name';
+                let name = prompt (text);
+                if (name != null) {
+                    if (name.length == 0) {
+                        text = `User didn't enter anything`;
+                    } 
+                    else {
+                        text = `Your First Name is ${name.charAt(0).toUpperCase () + name.slice (1)}`;
+                    }
+                }
+                else {
+                    text = `User didn't enter anything`;
+                }
+                let clean = DOMPurify.sanitize(text);
+                document.getElementById ("out").innerHTML = clean;
+                // document.getElementById ("out").style.pointerEvents = "none";
+            });
+        </script>
+
+        <!-- Custom dialogs JS part-->
+        <!-- <script type="module">
+            import {cusAlert} from './customdialog.js';
+            cusAlert();
+            import {cusConfirm} from './customdialog.js';
+            cusConfirm();
+            import {cusPrompt} from './customdialog.js';
+            cusPrompt();
+        </script> -->
+    </main>
+</body>
+</html>

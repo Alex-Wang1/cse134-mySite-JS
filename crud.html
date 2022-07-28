@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <script type="text/javascript" src="purify.min.js"></script>
+</head>
+<body>
+    <p id="counter"></p>
+    <table>
+        <tr>
+            <h1>Blog</h1>
+        </tr>
+        <tbody id="blog"> 
+        </tbody>
+    </table> 
+    
+    <dialog id="add-prompt">
+        <!-- <form id="post-form" action="javascript:void(0);" method="POST" onsubmit="app.Add()">  -->
+        <form id="post-form" action="javascript:void(0);" method="POST">
+            <p>The Blog Title: </p>
+            <input type="text" id="add-title" placeholder="Blog Title" required>
+            <p>The Blog Content: </p>
+            <textarea name="add-content" id="add-content" cols="30" rows="10" placeholder="Blog Content" required></textarea>
+            <input id="new-blog" type="submit" value="Add">
+            <input id="cancel-blog" type="button" value="Cancel">
+        </form>
+    </dialog>
+    <input type="button" value="Add" id="add-blog">
+
+    <script>
+        let app = new function() {
+            document.getElementById ('post-form').addEventListener ("submit", function () {
+                app.Add ();
+            });
+            let dialog = document.getElementById ('add-prompt');
+            document.getElementById ('add-blog').addEventListener ("click", function () {
+                dialog.show ();
+            });
+            document.getElementById ('cancel-blog').addEventListener ("click", function () {
+                dialog.close ();
+            });
+
+            this.el = document.getElementById('blog');
+            // flag to control if it is add event or edit event
+            this.addOrEdit = -1;
+
+            this.blog = [
+                ['Diary', 'Today I eat a burger.', '5/3/2018, 6:13:45 AM'], 
+                ['Fun Animals', 'I like raccoon!', '9/18/2020, 8:30:22 PM'], 
+                ['Product Release', 'Check out our new product!!!', '7/27/2022, 9:21:22 AM'],
+            ];
+
+            this.Count = function(data) {
+                var el   = document.getElementById('counter');
+                var name = 'blog';
+
+                if (data) {
+                    if (data > 1) {
+                        name = 'blogs';
+                    }
+                    el.innerHTML = data + ' ' + name ;
+                } else {
+                    el.innerHTML = 'No ' + name;
+                }
+            };
+
+            this.FetchAll = function () {
+                let data = '';
+                if (this.blog.length > 0) {
+                    for (let i = 0; i < this.blog.length; i++) {
+                        data += '<tr>';
+                        data += '<td>' + this.blog[i][0] + '</td>';
+                        data += '<td>' + this.blog[i][1] + '</td>';
+                        data += '<td>' + this.blog[i][2] + '</td>';
+                        data += '<td><button onclick="app.Edit(' + i + ')">Edit</button></td>';
+                        data += '<td><button onclick="app.Delete(' + i + ')">Delete</button></td>';
+                        data += '</tr>';
+                    }
+                }
+                
+                this.Count(this.blog.length);
+                return this.el.innerHTML = data;
+            };
+
+            this.Add = function () {
+                el = document.getElementById('add-title');
+                let content = document.getElementById ('add-content');
+                // Get the value
+                let country = DOMPurify.sanitize(el.value);
+                let blogContent = DOMPurify.sanitize(content.value);
+                let postDate = new Date(Date.now()).toLocaleString();
+
+                if (country && this.addOrEdit == -1) {
+                    // Add the new value
+                    this.blog.push([country.trim(), blogContent.trim (), postDate]);
+
+                    // Reset input value
+                    el.value = '';
+                    content.value = '';
+                    // Dislay the new list
+                    this.FetchAll();
+                    document.getElementById ('add-prompt').close ();
+                }
+                else {
+                    this.blog[this.addOrEdit][0] = country.trim ();
+                    this.blog[this.addOrEdit][1] = blogContent.trim ();
+                    this.blog[this.addOrEdit][2] = postDate;
+                    el.value = '';
+                    content.value = '';
+                    this.FetchAll ();
+                    document.getElementById ('add-prompt').close ();
+                }
+                this.addOrEdit = -1;
+            };
+
+            this.Edit = function (item) {
+                this.addOrEdit = item;
+                document.getElementById ("add-title").value = this.blog [item][0];
+                document.getElementById ('add-content').value = this.blog [item][1];
+                dialog.show ();
+            };
+
+            this.Delete = function (item) {
+                this.blog.splice (item, 1);
+                this.FetchAll ();
+            };
+        }
+        console.log (app);
+        app.FetchAll ();
+        function CloseInput() {
+            document.getElementById ('spoiler').style.display = 'none';
+        }
+    </script> 
+</body>
+</html>
